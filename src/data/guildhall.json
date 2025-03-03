@@ -1,0 +1,26 @@
+[
+    {
+        "name": "none",
+        "cost": 0
+    },
+    {
+        "name": "a dingy shack",
+        "cost": 10
+    },
+    {
+        "name": "a barn",
+        "cost": 10e2
+    },
+    {
+        "name": "a small building",
+        "cost": 10e5
+    },
+    {
+        "name": "a medium building",
+        "cost": 10e8
+    },
+    {
+        "name": "a mansion",
+        "cost": 10e20
+    }
+]
