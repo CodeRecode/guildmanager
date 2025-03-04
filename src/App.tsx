@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import GuildHall from './GuildHall'
+import { GuildHall } from './GuildHall'
+import { Character } from './Character'
 import './App.css'
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
 
   return (
     <>
+      <Character />
       <GuildHall />
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>

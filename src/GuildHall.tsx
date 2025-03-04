@@ -2,7 +2,7 @@ import { useState } from 'react';
 import data from './data/guildhall.json'
 import Modal from './components/Modal';
 
-function GuildHall() {
+export function GuildHall() {
     const [hallLevel, setHallLevel] = useState(0)
     let currentHallName = data[hallLevel].name;
 
@@ -21,5 +21,3 @@ function GuildHall() {
         </div>
     </>)
 }
-
-export default GuildHall
