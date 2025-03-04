@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { GuildHall } from './GuildHall'
-import { Character } from './Character'
+import { GuildHall } from './guildhall/GuildHall'
+import { Character } from './character/Character'
 import './App.css'
 
 function App() {
@@ -8,12 +8,14 @@ function App() {
 
   return (
     <>
-      <Character />
-      <GuildHall />
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+      <div className='grid grid-cols-3 gap-4 p-5'>
+        <Character />
+        <GuildHall />
+        <div>
+          <button onClick={() => setCount((count) => count + 1)}>
+            count is {count}
+          </button>
+        </div>
       </div>
     </>
   )
