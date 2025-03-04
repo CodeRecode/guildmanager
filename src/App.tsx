@@ -1,21 +1,15 @@
-import { useState } from 'react'
-import { GuildHall } from './guildhall/GuildHall'
+import { Location } from './location/Location'
 import { Character } from './character/Character'
+import { Inventory } from './inventory/Inventory'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div className='grid grid-cols-3 gap-4 p-5'>
+      <div className='grid grid-cols-3 gap-4 p-5 min-w-[1000px]'>
         <Character />
-        <GuildHall />
-        <div>
-          <button onClick={() => setCount((count) => count + 1)}>
-            count is {count}
-          </button>
-        </div>
+        <Inventory />
+        <Location />
       </div>
     </>
   )

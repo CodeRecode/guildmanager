@@ -1,6 +1,6 @@
 [
     {
-        "name": "none",
+        "name": "a tent",
         "cost": 0
     },
     {
@@ -12,15 +12,15 @@
         "cost": 10e2
     },
     {
-        "name": "a small building",
+        "name": "a small apartment",
         "cost": 10e5
     },
     {
-        "name": "a medium building",
+        "name": "a medium apartment",
         "cost": 10e8
     },
     {
-        "name": "a mansion",
+        "name": "a manor",
         "cost": 10e20
     }
 ]
