@@ -3,7 +3,7 @@ type CardProps = {
 }
 
 export function Card(props: CardProps) {
-    return (<div className="bg-zinc-600 border border-zinc-300 p-5 rounded-md">
+    return (<div className="bg-zinc-400 border-2 border-zinc-900 p-5 rounded-md">
         {props.children}
     </div>);
 }

@@ -5,6 +5,5 @@ type StatProps = {
 }
 
 export function Stat(props: StatProps) {
-    let className = "font-semibold text-center " + (props.className ?? "");
-    return(<div className={className}>{props.name}: {props.value}</div>);
+    return(<div className={`text-center border-black ${props.className}`}><span className="font-semibold">{props.name}:</span> {props.value}</div>);
 }

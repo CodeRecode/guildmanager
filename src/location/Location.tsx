@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import data from './homedata.json'
-import Modal from '../components/Modal';
 import { Card } from '../components/Card';
 
 export function Location() {
@@ -11,7 +10,6 @@ export function Location() {
     }
 
     return (<>
-        <Modal display={false}>asdaaadfasdfasdfasdff</Modal>
         <Card>
             <div className='font-bold text-center'>Location</div>
             <p>Your current home is: {data[homeLevel].name}</p>
