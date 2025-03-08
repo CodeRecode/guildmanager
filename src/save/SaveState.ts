@@ -1,8 +1,6 @@
-import { CCharacterState } from "../character/CharacterState"
+import { CharacterStateStore } from "../character/CharacterState"
 import { CInventoryState } from "../inventory/InventoryState";
 
-
-export var CharacterState: CCharacterState = new CCharacterState();
 export var InventoryState: CInventoryState = new CInventoryState();
 
 export function LoadState () {
@@ -10,12 +8,16 @@ export function LoadState () {
     if (json = localStorage.getItem("LastState")) {
         var saveObject = JSON.parse(json);
 
-        CharacterState = Object.assign(CharacterState, saveObject.CharacterState);
+        //const character = CharacterStateStore((state) => state.character);
+        //const updateCharacter = CharacterStateStore.((state) => state.update);
+        //updateCharacter(Object.assign(character, saveObject.CharacterState));
+
         InventoryState = Object.assign(InventoryState, saveObject.InventoryState);
     }
 }
 
 export function SaveState () {
+    const CharacterState = CharacterStateStore.getState().character;
     let LastState = {
         CharacterState,
         InventoryState
