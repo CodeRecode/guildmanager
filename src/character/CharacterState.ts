@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-class CharacterState {
+export class CharacterState {
     str: number = 10;
     con: number = 10;
     agi: number = 10;
@@ -16,5 +16,5 @@ interface ICharacterStateStore {
 
 export var CharacterStateStore = create<ICharacterStateStore>((set) => ({
     character: new CharacterState(),
-    update: (newState) => { set({ character: newState }) }
+    update: (newState) => set({ character: newState })
 }));
