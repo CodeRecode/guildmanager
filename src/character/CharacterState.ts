@@ -25,10 +25,10 @@ export class CharacterState {
 
 interface ICharacterStateStore {
     character: CharacterState
-    update: (newState: CharacterState) => void
+    Update: (newState: CharacterState) => void
 }
 
 export var CharacterStateStore = create<ICharacterStateStore>((set) => ({
     character: new CharacterState(),
-    update: (newState) => set({ character: newState })
+    Update: (newState) => set({ character: newState })
 }));

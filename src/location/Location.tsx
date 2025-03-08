@@ -1,22 +1,30 @@
-import { useState } from 'react';
-import data from './homedata.json'
 import { Card } from '../components/Card';
+import { HomeLocation } from './HomeLocation';
+import { LocationEnum, LocationStateStore } from './LocationState';
+
+interface LocationCellProps {
+    location: LocationEnum
+};
+
+function LocationCell(props: LocationCellProps) {
+    const locationState = LocationStateStore((state) => state.location);
+    const SwitchLocation = LocationStateStore((state) => state.SwitchLocation);
+    return <div className={`${locationState.currentLocation == props.location && "bg-zinc-600 text-white"}`} onClick={() => SwitchLocation(props.location)}>{String(props.location)}</div>;
+}
 
 export function Location() {
-    const [homeLevel, setHomeLevel] = useState(0);
-
-    function Upgrade() {
-        setHomeLevel(homeLevel + 1);
-    }
-
+    const locationState = LocationStateStore((state) => state.location);
     return (<>
         <Card>
-            <div className='font-bold text-center'>Location</div>
-            <p>Your current home is: {data[homeLevel].name}</p>
-            {
-                homeLevel + 1 < data.length &&
-                <button className='font-bold py-2 px-4 rounded bg-zinc-600' onClick={Upgrade}>Upgrade: {data[homeLevel + 1].cost} gold</button>
-            }
+            <div>
+                <div className="text-center font-bold">Location</div>
+                <div className='grid grid-cols-3 border rounded-md text-center divide-x bg-zinc-300'>
+                    <LocationCell location={LocationEnum.Home} />
+                    <LocationCell location={LocationEnum.Forest} />
+                    <LocationCell location={LocationEnum.Town} />
+                </div>
+            </div>
+            {locationState.currentLocation == LocationEnum.Home && <HomeLocation />}
         </Card>
     </>)
 }
