@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import data from './homedata.json'
 
-export function HomeLocation() {
+export function LocationHome() {
     const [homeLevel, setHomeLevel] = useState(0);
 
     function Upgrade() {

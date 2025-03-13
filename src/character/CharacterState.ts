@@ -11,8 +11,8 @@ export class ResourceState {
 }
 
 export class CharacterState {
-    health: ResourceState = new ResourceState(10, 10);
-    stamina: ResourceState = new ResourceState(10, 10);
+    health: ResourceState = new ResourceState(2, 10);
+    stamina: ResourceState = new ResourceState(5, 10);
     mana: ResourceState = new ResourceState(10, 10);
 
     str: number = 10;

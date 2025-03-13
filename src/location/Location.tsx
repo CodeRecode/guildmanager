@@ -1,5 +1,5 @@
 import { Card } from '../components/Card';
-import { HomeLocation } from './HomeLocation';
+import { LocationHome } from './LocationHome';
 import { LocationEnum, LocationStateStore } from './LocationState';
 
 interface LocationCellProps {
@@ -9,7 +9,11 @@ interface LocationCellProps {
 function LocationCell(props: LocationCellProps) {
     const locationState = LocationStateStore((state) => state.location);
     const SwitchLocation = LocationStateStore((state) => state.SwitchLocation);
-    return <div className={`${locationState.currentLocation == props.location && "bg-zinc-600 text-white"}`} onClick={() => SwitchLocation(props.location)}>{String(props.location)}</div>;
+
+    return <div className={`${locationState.currentLocation == props.location && "bg-zinc-600 text-white border-black"}`}
+        onClick={() => SwitchLocation(props.location)}>
+        {String(props.location)}
+    </div>;
 }
 
 export function Location() {
@@ -24,7 +28,7 @@ export function Location() {
                     <LocationCell location={LocationEnum.Town} />
                 </div>
             </div>
-            {locationState.currentLocation == LocationEnum.Home && <HomeLocation />}
+            {locationState.currentLocation == LocationEnum.Home && <LocationHome />}
         </Card>
     </>)
 }
