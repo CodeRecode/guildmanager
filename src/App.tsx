@@ -4,6 +4,7 @@ import { Inventory } from './inventory/Inventory'
 import './App.css'
 import { LoadState } from './save/SaveState'
 import Modal from './components/Modal'
+import { Log } from './log/Log'
 
 function App() {
   LoadState();
@@ -11,9 +12,12 @@ function App() {
     <>
       <Modal display={false}>asdaaadfasdfasdfasdff</Modal>
       <div className='grid grid-cols-3 gap-4 p-5 min-w-[1000px]'>
-        <Character />
+        <div className='row-span-2'>
+          <Character />
+        </div>
         <Inventory />
         <Location />
+        <Log />
       </div>
     </>
   )
