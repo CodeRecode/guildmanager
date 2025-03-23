@@ -1,3 +1,4 @@
+import { ActivityStateStore } from '../activity/ActivityState';
 import { Card } from '../components/Card';
 import { LocationHome } from './LocationHome';
 import { LocationEnum, LocationStateStore } from './LocationState';
@@ -18,6 +19,7 @@ function LocationCell(props: LocationCellProps) {
 
 export function Location() {
     const locationState = LocationStateStore((state) => state.location);
+    const activityState = ActivityStateStore((state) => state.state);
     return (<>
         <Card>
             <div>
@@ -29,6 +31,9 @@ export function Location() {
                 </div>
             </div>
             {locationState.currentLocation == LocationEnum.Home && <LocationHome />}
+            {
+                activityState.allActivities.map((act, i) => { return (<button className="bg-amber-300" key={act.def.name} onClick={() => act.def.onComplete()}>{act.def.name}</button>); })
+            }
         </Card>
     </>)
 }

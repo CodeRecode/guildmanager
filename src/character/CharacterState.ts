@@ -1,11 +1,20 @@
 import { create } from "zustand";
 
+export enum CharacterStatEnum {
+    str = 'str',
+    con = 'con',
+    agi = 'agi',
+    ref = 'ref',
+    int = 'int',
+    wil = 'wil'
+}
+
 export class ResourceState {
     constructor(current: number, max: number) {
         this.current = current;
         this.max = max;
     }
-    
+
     current: number = 10;
     max: number = 10;
 }
@@ -25,10 +34,16 @@ export class CharacterState {
 
 interface ICharacterStateStore {
     character: CharacterState
+    ChangeStat: (delta: number, stat: CharacterStatEnum) => void
     Update: (newState: CharacterState) => void
 }
 
 export var CharacterStateStore = create<ICharacterStateStore>((set) => ({
     character: new CharacterState(),
+    ChangeStat: (delta, stat) => set((state) => {
+        var newChar = structuredClone(state.character);
+        newChar[stat] += delta;
+        return {...state, character: newChar }
+    }),
     Update: (newState) => set({ character: newState })
 }));
