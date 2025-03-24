@@ -19,5 +19,5 @@ interface ILocationStateStore {
 export var LocationStateStore = create<ILocationStateStore>((set) => ({
     location: new LocationState(),
     Update: (newState) => set({ location: newState }),
-    SwitchLocation: (newLocation) => set((state) => ({ location: { ...state.location, currentLocation: newLocation } })),
+    SwitchLocation: (newLocation) => set((prev) => ({ location: { ...prev.location, currentLocation: newLocation } })),
 }));

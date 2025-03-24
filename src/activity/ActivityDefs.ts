@@ -2,21 +2,33 @@ import { CharacterStatEnum, CharacterStateStore } from "../character/CharacterSt
 import { LocationEnum } from "../location/LocationState"
 
 export interface ActivityDef {
+    id: string,
     name: string
-    baseDurationSec: number
-    durationScale: number
+    baseDurationMs: number
+    durationScaleMs: number
     location: LocationEnum
     onComplete: Function
 };
 
 export const AllActivityDefs: ActivityDef[] = [
     {
+        id: "train_strength",
         name: "Train Strength",
-        baseDurationSec: 5,
-        durationScale: 1,
+        baseDurationMs: 5 * 1000,
+        durationScaleMs: 1000,
         location: LocationEnum.Forest,
         onComplete: () => {
             CharacterStateStore.getState().ChangeStat(1, CharacterStatEnum.str);
+        }
+    },
+    {
+        id: "train_agility",
+        name: "Train Agility",
+        baseDurationMs: 5 * 1000,
+        durationScaleMs: 1000,
+        location: LocationEnum.Forest,
+        onComplete: () => {
+            CharacterStateStore.getState().ChangeStat(1, CharacterStatEnum.agi);
         }
     }
 ]

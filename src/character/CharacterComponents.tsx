@@ -1,3 +1,4 @@
+import { ProgressBar } from "../components/ProgressBar";
 import { ResourceState } from "./CharacterState";
 
 interface StatProps {
@@ -17,11 +18,5 @@ interface ResourceBarProps {
 }
 
 export function ResourceBar(props: ResourceBarProps) {
-    const percent = Math.floor(props.state.current / props.state.max * 100);
-    return (
-        <div className={`bg-zinc-300 grid ${props.outerClassName}`}>
-            <div className="col-start-1 row-start-1 text-center relative">{props.state.current + "/" + props.state.max}</div>
-            <div className={`col-start-1 row-start-1 ${props.innerClassName}`} style={{width: `${percent}%`}}></div>
-        </div>
-    );
+    return ProgressBar({...props, ...props.state, text: props.state.current + "/" + props.state.max});
 }

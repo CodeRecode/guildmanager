@@ -1,5 +1,7 @@
+import { useShallow } from 'zustand/shallow';
 import { ActivityStateStore } from '../activity/ActivityState';
 import { Card } from '../components/Card';
+import { ProgressBar } from '../components/ProgressBar';
 import { LocationHome } from './LocationHome';
 import { LocationEnum, LocationStateStore } from './LocationState';
 
@@ -19,10 +21,10 @@ function LocationCell(props: LocationCellProps) {
 
 export function Location() {
     const locationState = LocationStateStore((state) => state.location);
-    const activityState = ActivityStateStore((state) => state.state);
+    const [allActivities, currentActivity, SetCurrentActivity] = ActivityStateStore(useShallow((state) => [state.allActivities, state.currentActivity, state.SetCurrentActivity]));
     return (<>
         <Card>
-            <div>
+            <div className='mb-2'>
                 <div className="text-center font-bold">Location</div>
                 <div className='grid grid-cols-3 border rounded-md text-center divide-x bg-zinc-300'>
                     <LocationCell location={LocationEnum.Home} />
@@ -32,7 +34,26 @@ export function Location() {
             </div>
             {locationState.currentLocation == LocationEnum.Home && <LocationHome />}
             {
-                activityState.allActivities.map((act, i) => { return (<button className="bg-amber-300" key={act.def.name} onClick={() => act.def.onComplete()}>{act.def.name}</button>); })
+                Array.from(allActivities.values())
+                    .filter(act => act.def.location == locationState.currentLocation)
+                    .map(act => {
+                        const isCurrentActivity = currentActivity?.def.id == act.def.id
+                        return (<div className="grid grid-cols-3 mt-0.5" key={act.def.id}>
+                            <button
+                                className={`${isCurrentActivity ? "bg-amber-200" : "bg-zinc-300"} rounded-md px-2 border border-black mr-1`}
+                                onClick={() => SetCurrentActivity(isCurrentActivity ? null : act)}>
+                                {act.def.name}
+                            </button>
+                            <ProgressBar
+                                rounded={true}
+                                outerClassName="col-span-2 border"
+                                innerClassName="bg-amber-300"
+                                current={act.progressMs}
+                                max={act.durationMs}
+                                text={((act.durationMs - act.progressMs) / 1000).toString() + " hours"}>
+                            </ProgressBar>
+                        </div>);
+                    })
             }
         </Card>
     </>)

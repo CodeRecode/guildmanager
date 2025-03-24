@@ -1,36 +1,71 @@
 import { create } from "zustand";
 import { ActivityDef, AllActivityDefs } from "./ActivityDefs";
+import { GameTickEventString, GameTickTimeMs } from "../core/Core";
+import { CharacterState, CharacterStateStore } from "../character/CharacterState";
 
 
 export class Activity {
     def: ActivityDef
     completions: number
-    duration: number
-    progress: number
+    durationMs: number
+    progressMs: number
 
     constructor(def: ActivityDef) {
         this.def = def
         this.completions = 0
-        this.duration = def.baseDurationSec
-        this.progress = 0
-    }
-}
-
-export class ActivityState {
-    currentActivity: Activity | null = null;
-    allActivities: Activity[];
-
-    constructor() {
-        this.allActivities = AllActivityDefs.map(def => new Activity(def));
+        this.durationMs = def.baseDurationMs
+        this.progressMs = 0
     }
 }
 
 interface IActivityStateStore {
-    state: ActivityState,
-    Update: (newState: ActivityState) => void,
+    currentDateMs: number,
+    maxDateMs: number,
+    currentActivity: Activity | null,
+    allActivities: Map<string, Activity>,
+    SetCurrentActivity(newActivity: Activity | null): void,
+    UpdateDate(currentDateMs: number): void
 }
 
 export var ActivityStateStore = create<IActivityStateStore>((set) => ({
-    state: new ActivityState(),
-    Update: (newState) => set({ state: newState }),
+    currentDateMs: 0,
+    maxDateMs: 1000 * 60 * 10, // 10 min
+    currentActivity: null,
+    allActivities: new Map(AllActivityDefs.map(def => [def.id, new Activity(def)])),
+    SetCurrentActivity: (newActivity) => set((prev) => ({
+        currentActivity: newActivity, 
+        allActivities: newActivity ? new Map(prev.allActivities).set(newActivity.def.id, newActivity) : prev.allActivities
+    })),
+    UpdateDate: (currentDateMs) => set(() => ({currentDateMs}))
 }));
+
+window.addEventListener(GameTickEventString, OnTick);
+
+function OnTick() {
+    let currentActivity = ActivityStateStore.getState().currentActivity;
+    if (!currentActivity) {
+        return;
+    }
+
+    let updatedActivity = {...currentActivity};
+    updatedActivity.progressMs += GameTickTimeMs;
+
+    if (updatedActivity.progressMs >= updatedActivity.durationMs) {
+        var def = updatedActivity.def;
+        def.onComplete();
+        updatedActivity.completions++;
+        updatedActivity.durationMs = def.baseDurationMs + def.durationScaleMs * updatedActivity.completions;
+        updatedActivity.progressMs = 0;
+    }
+    
+    ActivityStateStore.getState().SetCurrentActivity(updatedActivity);
+
+    let {currentDateMs, maxDateMs} = ActivityStateStore.getState();
+    if (currentDateMs + GameTickTimeMs >= maxDateMs) {
+        CharacterStateStore.getState().Update(new CharacterState());
+        ActivityStateStore.getState().UpdateDate(0);
+    }
+    else {
+        ActivityStateStore.getState().UpdateDate(currentDateMs + GameTickTimeMs);
+    }
+}
