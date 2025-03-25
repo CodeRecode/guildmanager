@@ -11,10 +11,8 @@ interface LocationCellProps {
 
 function LocationCell(props: LocationCellProps) {
     const locationState = LocationStateStore((state) => state.location);
-    const SwitchLocation = LocationStateStore((state) => state.SwitchLocation);
 
-    return <div className={`${locationState.currentLocation == props.location && "bg-zinc-600 text-white border-black"}`}
-        onClick={() => SwitchLocation(props.location)}>
+    return <div className={`${locationState.currentLocation == props.location && "bg-zinc-600 text-white border-black"}`}>
         {String(props.location)}
     </div>;
 }
@@ -32,7 +30,6 @@ export function Location() {
                     <LocationCell location={LocationEnum.Town} />
                 </div>
             </div>
-            {locationState.currentLocation == LocationEnum.Home && <LocationHome />}
             {
                 Array.from(allActivities.values())
                     .filter(act => act.def.location == locationState.currentLocation)
@@ -55,6 +52,7 @@ export function Location() {
                         </div>);
                     })
             }
+            {locationState.currentLocation == LocationEnum.Home && <LocationHome />}
         </Card>
     </>)
 }

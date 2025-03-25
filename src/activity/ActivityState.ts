@@ -52,13 +52,18 @@ function OnTick() {
 
     if (updatedActivity.progressMs >= updatedActivity.durationMs) {
         var def = updatedActivity.def;
-        def.onComplete();
         updatedActivity.completions++;
         updatedActivity.durationMs = def.baseDurationMs + def.durationScaleMs * updatedActivity.completions;
         updatedActivity.progressMs = 0;
+
+        ActivityStateStore.getState().SetCurrentActivity(updatedActivity);
+
+        def.onComplete();
+    }
+    else {
+        ActivityStateStore.getState().SetCurrentActivity(updatedActivity);
     }
     
-    ActivityStateStore.getState().SetCurrentActivity(updatedActivity);
 
     let {currentDateMs, maxDateMs} = ActivityStateStore.getState();
     if (currentDateMs + GameTickTimeMs >= maxDateMs) {

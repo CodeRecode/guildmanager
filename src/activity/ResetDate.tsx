@@ -10,7 +10,7 @@ export function ResetDate() {
     const displayHours = Math.floor(hours % 24);
     const days = Math.floor(hours / 24);
     return (
-            <ProgressBar rounded={true} current={currentDateMs} max={maxDateMs} outerClassName={"border"} innerClassName="bg-orange-600" text={`${days} Days ${displayHours} Hours Remain`}>
+            <ProgressBar rounded={true} current={currentDateMs} max={maxDateMs} outerClassName={"border font-bold h-8"} innerClassName="bg-orange-600" text={`${days} Days ${displayHours} Hours Remain`}>
                 
             </ProgressBar>
     );
