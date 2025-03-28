@@ -34,20 +34,22 @@ export function Location() {
                 Array.from(allActivities.values())
                     .filter(act => act.def.location == locationState.currentLocation)
                     .map(act => {
-                        const isCurrentActivity = currentActivity?.def.id == act.def.id
+                        const isCurrentActivity = currentActivity?.def.id == act.def.id;
+                        const meetsRequirement = act.def.requirement == null || act.def.requirement();
+                        const text = meetsRequirement ? ((act.durationMs - act.progressMs) / 1000).toString() + " hours" : act.def.requirementText;
                         return (<div className="grid grid-cols-3 mt-0.5" key={act.def.id}>
                             <button
                                 className={`${isCurrentActivity ? "bg-amber-200" : "bg-zinc-300"} rounded-md px-2 border border-black mr-1`}
-                                onClick={() => SetCurrentActivity(isCurrentActivity ? null : act)}>
+                                onClick={() => meetsRequirement && SetCurrentActivity(isCurrentActivity ? null : act)}>
                                 {act.def.name}
                             </button>
                             <ProgressBar
                                 rounded={true}
                                 outerClassName="col-span-2 border"
-                                innerClassName="bg-amber-300"
-                                current={act.progressMs}
+                                innerClassName={`${meetsRequirement ? "bg-amber-300" : "bg-red-200"}`}
+                                current={meetsRequirement ? act.progressMs : act.durationMs}
                                 max={act.durationMs}
-                                text={((act.durationMs - act.progressMs) / 1000).toString() + " hours"}>
+                                text={text}>
                             </ProgressBar>
                         </div>);
                     })

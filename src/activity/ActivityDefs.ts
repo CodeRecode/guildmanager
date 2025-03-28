@@ -8,6 +8,8 @@ export interface ActivityDef {
     baseDurationMs: number
     durationScaleMs: number
     location: LocationEnum
+    requirement?: Function
+    requirementText?: string
     onComplete: Function
 };
 
@@ -24,13 +26,28 @@ export const AllActivityDefs: ActivityDef[] = [
         }
     },
     {
-        id: "go_home",
-        name: "Go Home",
+        id: "return_home",
+        name: "Return Home",
         baseDurationMs: 500,
         durationScaleMs: 0,
         location: LocationEnum.Forest,
         onComplete: () => {
             LocationStateStore.getState().SwitchLocation(LocationEnum.Home);
+            ActivityStateStore.getState().SetCurrentActivity(null);
+        }
+    },
+    {
+        id: "go_to_town",
+        name: "Go to Town",
+        baseDurationMs: 500,
+        durationScaleMs: 0,
+        location: LocationEnum.Forest,
+        requirement: () => {
+            return CharacterStateStore.getState().character.str >= 10;
+        },
+        requirementText: "Strength 10",
+        onComplete: () => {
+            LocationStateStore.getState().SwitchLocation(LocationEnum.Town);
             ActivityStateStore.getState().SetCurrentActivity(null);
         }
     },

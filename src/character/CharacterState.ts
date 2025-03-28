@@ -24,12 +24,12 @@ export class CharacterState {
     stamina: ResourceState = new ResourceState(5, 10);
     mana: ResourceState = new ResourceState(10, 10);
 
-    str: number = 10;
-    con: number = 10;
-    agi: number = 10;
-    ref: number = 10;
-    int: number = 10;
-    wil: number = 10;
+    str: number = 8;
+    con: number = 8;
+    agi: number = 8;
+    ref: number = 8;
+    int: number = 8;
+    wil: number = 8;
 }
 
 interface ICharacterStateStore {
